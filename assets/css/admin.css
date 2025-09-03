@@ -1,0 +1,92 @@
+.glint-automation-settings label {
+    display: inline-block;
+    width: 200px;
+    vertical-align: top;
+}
+
+.glint-automation-settings input[type="text"],
+.glint-automation-settings input[type="email"],
+.glint-automation-settings input[type="number"],
+.glint-automation-settings textarea {
+    width: 300px;
+}
+
+.select2-container {
+    width: 300px !important;
+}
+
+.status-label {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-scheduled {
+    background-color: #f0ad4e;
+    color: #fff;
+}
+
+.status-sent {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.wp-list-table th, .wp-list-table td {
+    vertical-align: middle;
+}
+
+.tablenav .actions {
+    margin: 5px 0;
+}
+
+/* Delete button styling */
+.delete-email-record {
+    background: #d63638;
+    border-color: #d63638;
+    color: #fff;
+}
+
+.delete-email-record:hover,
+.delete-email-record:focus {
+    background: #b32d2e;
+    border-color: #b32d2e;
+    color: #fff;
+}
+
+.delete-email-record:disabled {
+    background: #ccc;
+    border-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Row fade animation */
+#email-list-table tr {
+    transition: opacity 0.3s ease;
+}
+
+/* Email preview styles */
+.email-preview {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 10px;
+    background: #fff;
+}
+
+.email-preview .email-head {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.email-preview .email-body {
+    margin-bottom: 15px;
+}
+
+.email-preview .email-footer {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 15px;
+    font-size: 12px;
+    color: #666;
+}

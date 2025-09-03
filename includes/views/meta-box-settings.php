@@ -45,6 +45,7 @@
     <p><label>BCC:</label><input type="text" name="bcc" value="<?php echo esc_attr($settings['bcc']); ?>"></p>
     <p><label>Days After Purchase:</label><input type="number" name="days_after" value="<?php echo esc_attr($settings['days_after']); ?>"></p>
     <p><label>Days Between Attempts:</label><input type="number" name="days_between" value="<?php echo esc_attr($settings['days_between']); ?>"></p>
+    <p><label>Maximum Email Sent:</label><input type="number" name="maximum_sent" value="<?php echo esc_attr($settings['maximum_sent']); ?>" min="1"></p>
     <p><label>Email Title:</label><input type="text" name="email_title" value="<?php echo esc_attr($settings['email_title']); ?>" style="width: 100%;"></p>
     <p><label>Email Head:</label><textarea name="email_head" rows="5" style="width: 100%;"><?php echo esc_textarea($settings['email_head']); ?></textarea></p>
     <p><label>Email Footer:</label><textarea name="email_footer" rows="5" style="width: 100%;"><?php echo esc_textarea($settings['email_footer']); ?></textarea></p>

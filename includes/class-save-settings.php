@@ -21,7 +21,8 @@ class Glint_Email_Automation_Save_Settings {
             'email_head' => wp_kses_post($_POST['email_head']),
             'email_footer' => wp_kses_post($_POST['email_footer']),
             'days_after' => absint($_POST['days_after']),
-            'days_between' => absint($_POST['days_between'])
+            'days_between' => absint($_POST['days_between']),
+            'maximum_sent' => absint($_POST['maximum_sent']) 
         );
 
         update_post_meta($post_id, '_glint_email_automation_settings', $settings);

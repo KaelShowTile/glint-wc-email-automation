@@ -46,6 +46,22 @@ class Glint_Email_Automation_Cron {
             return;
         }
         
+        // Check if we've reached the maximum number of emails
+        $maximum_sent = isset($settings['maximum_sent']) ? intval($settings['maximum_sent']) : 1;
+        
+        if ($maximum_sent > 0 && $email->total_email_sent >= $maximum_sent) {
+            // Maximum sends reached, update status and return
+            $wpdb->update(
+                $table_name,
+                array('status' => 'completed'),
+                array('email_id' => $email->email_id),
+                array('%s'),
+                array('%d')
+            );
+            error_log('Maximum email sends reached for email ID: ' . $email->email_id);
+            return;
+        }
+        
         // Get the automation post content (email body)
         $automation_post = get_post($automation_id);
         $email_body = $automation_post->post_content;
@@ -72,22 +88,41 @@ class Glint_Email_Automation_Cron {
         );
         
         if ($sent) {
+            $new_total_sent = $email->total_email_sent + 1;
+            
+            // Check if we've reached the maximum after this send
+            if ($maximum_sent > 0 && $new_total_sent >= $maximum_sent) {
+                // Maximum reached, update status to completed
+                $status = 'completed';
+                $next_sending_date = null;
+            } else {
+                // Schedule next email
+                $status = 'scheduled';
+                $next_sending_date = date('Y-m-d H:i:s', strtotime("+{$settings['days_between']} days"));
+            }
+            
             // Update email record
-            $next_sending_date = date('Y-m-d H:i:s', strtotime("+{$settings['days_between']} days"));
+            $update_data = array(
+                'total_email_sent' => $new_total_sent,
+                'last_sent_date' => current_time('mysql'),
+                'status' => $status
+            );
+            
+            if ($next_sending_date) {
+                $update_data['next_sending_date'] = $next_sending_date;
+            }
             
             $wpdb->update(
                 $table_name,
-                array(
-                    'total_email_sent' => $email->total_email_sent + 1,
-                    'last_sent_date' => current_time('mysql'),
-                    'next_sending_date' => $next_sending_date
-                ),
+                $update_data,
                 array('email_id' => $email->email_id),
-                array('%d', '%s', '%s'),
+                $next_sending_date ? 
+                    array('%d', '%s', '%s', '%s') : 
+                    array('%d', '%s', '%s'),
                 array('%d')
             );
             
-            error_log('Email sent successfully to: ' . $email->customer_email);
+            error_log('Email sent successfully to: ' . $email->customer_email . ' (Send #' . $new_total_sent . ')');
         } else {
             error_log('Failed to send email to: ' . $email->customer_email);
         }

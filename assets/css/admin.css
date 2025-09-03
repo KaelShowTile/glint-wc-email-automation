@@ -90,3 +90,8 @@
     font-size: 12px;
     color: #666;
 }
+
+.status-completed {
+    background-color: #5bc0de;
+    color: #fff;
+}

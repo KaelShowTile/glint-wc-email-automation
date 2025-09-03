@@ -80,7 +80,14 @@
                             <td><?php echo $item->total_email_sent; ?></td>
                             <td>
                                 <span class="status-label status-<?php echo $item->status; ?>">
-                                    <?php echo ucfirst($item->status); ?>
+                                    <?php 
+                                    $status_labels = array(
+                                        'scheduled' => __('Scheduled', 'glint-wc-email-automation'),
+                                        'sent' => __('Sent', 'glint-wc-email-automation'),
+                                        'completed' => __('Completed', 'glint-wc-email-automation')
+                                    );
+                                    echo isset($status_labels[$item->status]) ? $status_labels[$item->status] : ucfirst($item->status); 
+                                    ?>
                                 </span>
                             </td>
                             <td>

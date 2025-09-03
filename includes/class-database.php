@@ -18,7 +18,7 @@ class Glint_Email_Automation_Database {
             customer_email VARCHAR(255) NOT NULL,
             purchase_date DATETIME NOT NULL,
             first_sending_date DATETIME NOT NULL,
-            next_sending_date DATETIME NOT NULL,
+            next_sending_date DATETIME NULL,
             total_email_sent INT UNSIGNED NOT NULL DEFAULT 0,
             status VARCHAR(20) DEFAULT 'scheduled',
             last_sent_date DATETIME NULL,

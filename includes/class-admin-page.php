@@ -8,9 +8,9 @@ class Glint_Email_Automation_Admin_Page {
 
     public function add_admin_menu() {
         add_submenu_page(
-            'woocommerce',
+            'edit.php?post_type=email-automation', // Changed from 'woocommerce'
             __('Email Automation Schedules', 'glint-wc-email-automation'),
-            __('Email Automation', 'glint-wc-email-automation'),
+            __('Scheduled Email', 'glint-wc-email-automation'), // Changed label
             'manage_options',
             'glint-email-automation',
             array($this, 'render_admin_page')
@@ -18,7 +18,7 @@ class Glint_Email_Automation_Admin_Page {
     }
 
     public function enqueue_admin_scripts($hook) {
-        if ('woocommerce_page_glint-email-automation' !== $hook) {
+        if ('email-automation_page_glint-email-automation' !== $hook) {
             return;
         }
         

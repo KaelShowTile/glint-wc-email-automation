@@ -32,7 +32,8 @@ class Glint_Email_Automation_Meta_Boxes {
             'email_head' => '', 
             'email_footer' => '',
             'days_after' => 0,
-            'days_between' => 1
+            'days_between' => 1,
+            'maximum_sent' => 1
         ));
 
         include GLINT_WC_EMAIL_AUTOMATION_PLUGIN_PATH . 'includes/views/meta-box-settings.php';

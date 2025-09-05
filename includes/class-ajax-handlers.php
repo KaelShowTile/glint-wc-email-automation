@@ -2,8 +2,8 @@
 class Glint_Email_Automation_AJAX_Handlers {
 
     public function __construct() {
-        add_action('wp_ajax_glint_search_products', array($this, 'search_products'));
-        add_action('wp_ajax_glint_search_categories', array($this, 'search_categories'));
+        add_action('wp_ajax_glint_email_automation_search_products', array($this, 'search_products'));
+        add_action('wp_ajax_glint_email_automation_categories', array($this, 'search_categories'));
         add_action('wp_ajax_glint_delete_email_record', array($this, 'handle_delete_email_record'));
     }
 

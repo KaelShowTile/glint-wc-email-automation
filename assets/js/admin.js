@@ -1,4 +1,5 @@
 jQuery(function($) {
+
     // Localize script with nonce
     var glint_ajax_data = {
         ajax_url: ajaxurl,
@@ -21,7 +22,7 @@ jQuery(function($) {
                 delay: 250,
                 data: function(params) {
                     return {
-                        action: isProduct ? 'glint_search_products' : 'glint_search_categories',
+                        action: isProduct ? 'glint_email_automation_search_products' : 'glint_email_automation_search_categories',
                         term: params.term,
                         security: glint_ajax_data.nonce
                     };

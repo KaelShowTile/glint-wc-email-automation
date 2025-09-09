@@ -35,16 +35,37 @@ class Glint_Email_Automation_Cron {
     public function process_scheduled_emails_right_now() {
         global $wpdb;
         $table_name = $wpdb->prefix . 'glint_wc_automated_email';
+
+        $status = "scheduled";
         
         // Find emails that need to be sent today
         $emails = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT * FROM $table_name WHERE status = 'scheduled' "
+                "SELECT * FROM $table_name WHERE status = '%s' ",
+                $status
             )
         );
         
         foreach ($emails as $email) {
             $this->send_automated_email($email);
+        }
+    }
+
+    //intergration with glint sample plugin
+    public function get_original_product_id($product_id){
+        global $wpdb;
+        $table = $wpdb->prefix . 'glint_sample_product';
+        
+        // Get original product ID
+        $original_id = $wpdb->get_var($wpdb->prepare(
+            "SELECT original_product_id FROM $table WHERE sample_product_id = %d", 
+            $product_id
+        ));
+
+        if($original_id){
+            return $original_id;
+        }else{
+            return 0;
         }
     }
 
@@ -167,7 +188,7 @@ class Glint_Email_Automation_Cron {
         
         // Add email body
         $content .= '<div class="email-body" style="text-align:center;">';
-        $content .= '<p>Hi ' . $first_name . ',</p>';
+        $content .= '<p style="text-align:left;">Hi ' . $first_name . ',</p>';
         $content .= wpautop(wp_kses_post($email_body));
         $content .='</div>';
 
@@ -176,16 +197,35 @@ class Glint_Email_Automation_Cron {
         $content .= '<table style="margin: auto;">';
         foreach ($items as $item_id => $item){
             $product = $item->get_product();
+            $product_id = $item->get_product_id();
+            
+            //intergrate with sample plugin
+            if(is_plugin_active('glint-sample-products/cht-sample-products.php')){
+                //get original product id
+                $original_product =  $this->get_original_product_id($product_id);
+                if($original_product != 0){
+                    $original_product = wc_get_product($product_id);
 
-            if($product){
-                $product_name = esc_html($item->get_name());
-                $product_permalink = esc_url($product->get_permalink());
-                $thumbnail_url = wp_get_attachment_image_url($product->get_image_id(), 'thumbnail');
-
-                $content .= '<tr>';
-                $content .= '<td><img src="' . $thumbnail_url . '"></td>';
-                $content .= '<td><a href="' . $product_permalink . '">' . $product_name . '</td>';
-                $content .= '</tr>';
+                    if($original_product){
+                        $product_name = $original_product->get_name();
+                        $product_permalink = get_permalink($product_id);
+                        $thumbnail_url = wp_get_attachment_image_url($original_product->get_image_id(), 'thumbnail');
+                        $content .= '<tr>';
+                        $content .= '<td><img src="' . $thumbnail_url . '"></td>';
+                        $content .= '<td><a href="' . $product_permalink . '">' . $product_name . '</td>';
+                        $content .= '</tr>';
+                    }
+                }
+            }else{
+                if($product){
+                    $product_name = esc_html($item->get_name());
+                    $product_permalink = esc_url($product->get_permalink());
+                    $thumbnail_url = wp_get_attachment_image_url($product->get_image_id(), 'thumbnail');
+                    $content .= '<tr>';
+                    $content .= '<td><img src="' . $thumbnail_url . '"></td>';
+                    $content .= '<td><a href="' . $product_permalink . '">' . $product_name . '</td>';
+                    $content .= '</tr>';
+                }
             }
         }
         $content .= '</table>';

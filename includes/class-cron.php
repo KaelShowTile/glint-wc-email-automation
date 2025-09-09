@@ -158,21 +158,21 @@ class Glint_Email_Automation_Cron {
             <title>' . esc_html($settings['email_title']) . '</title>
         </head>
         <body>
-            <div class="email-container">';
+            <div class="email-container" style="text-align:center;">';
         
         // Add email head
         if (!empty($settings['email_head'])) {
-            $content .= '<div class="email-head">' . wpautop(wp_kses_post($settings['email_head'])) . '</div>';
+            $content .= '<div class="email-head" style="text-align:center;">' . wpautop(wp_kses_post($settings['email_head'])) . '</div>';
         }
         
         // Add email body
-        $content .= '<div class="email-body">';
-        $content .= '<p>Hi ' . $first_name . '</p>';
+        $content .= '<div class="email-body" style="text-align:center;">';
+        $content .= '<p>Hi ' . $first_name . ',</p>';
         $content .= wpautop(wp_kses_post($email_body));
         $content .='</div>';
 
         //load product list
-        $content .= '<div class="product-list-container">';
+        $content .= '<div class="product-list-container" style="text-align:center;">';
         $content .= '<table>';
         foreach ($items as $item_id => $item){
             $product = $item->get_product();

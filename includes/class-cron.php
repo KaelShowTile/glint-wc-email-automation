@@ -173,7 +173,7 @@ class Glint_Email_Automation_Cron {
 
         //load product list
         $content .= '<div class="product-list-container" style="text-align:center;">';
-        $content .= '<table>';
+        $content .= '<table style="margin: auto;">';
         foreach ($items as $item_id => $item){
             $product = $item->get_product();
 

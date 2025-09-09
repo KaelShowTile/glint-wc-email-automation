@@ -32,6 +32,22 @@ class Glint_Email_Automation_Cron {
         }
     }
 
+    public function process_scheduled_emails_right_now() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'glint_wc_automated_email';
+        
+        // Find emails that need to be sent today
+        $emails = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM $table_name WHERE status = 'scheduled' "
+            )
+        );
+        
+        foreach ($emails as $email) {
+            $this->send_automated_email($email);
+        }
+    }
+
     private function send_automated_email($email) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'glint_wc_automated_email';

@@ -13,7 +13,9 @@ class Glint_Email_Automation_Order_Handler {
         $items = $order->get_items();
         $customer_email = $order->get_billing_email();
         $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-        $purchase_date = $order->get_date_created()->format('Y-m-d H:i:s');
+        $purchase_date = current_time('Y-m-d H:i:s');
+
+        //error_log('Raw date created: ' . print_r($order->get_date_created(), true));
         
         foreach ($automations as $automation) {
             $settings = get_post_meta($automation->ID, '_glint_email_automation_settings', true);

@@ -49,7 +49,7 @@ class Glint_Email_Automation_Admin_Page {
         if (isset($_POST['process_emails_manually'])) {
             if (wp_verify_nonce($_POST['_wpnonce'], 'process_emails_manually')) {
                 $cron = new Glint_Email_Automation_Cron();
-                $cron->process_scheduled_emails();
+                $cron->process_scheduled_emails_right_now();
                 echo '<div class="notice notice-success"><p>Email processing completed.</p></div>';
             }
         }

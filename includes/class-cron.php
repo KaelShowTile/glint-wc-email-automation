@@ -38,6 +38,7 @@ class Glint_Email_Automation_Cron {
         
         // Get automation settings
         $automation_id = $email->automation_id;
+        $order_id = $email->order_id;
         $settings = get_post_meta($automation_id, '_glint_email_automation_settings', true);
         
         if (!$settings) {
@@ -67,7 +68,7 @@ class Glint_Email_Automation_Cron {
         $email_body = $automation_post->post_content;
         
         // Build the full email content
-        $email_content = $this->build_email_content($settings, $email_body);
+        $email_content = $this->build_email_content($settings, $email_body, $order_id);
         
         // Email headers
         $headers = array(
@@ -128,7 +129,12 @@ class Glint_Email_Automation_Cron {
         }
     }
 
-    private function build_email_content($settings, $email_body) {
+    private function build_email_content($settings, $email_body, $order_id) {
+
+        $order = wc_get_order($order_id);
+        $first_name = esc_html($order->get_billing_first_name());
+        $items = $order->get_items();
+
         $content = '<!DOCTYPE html>
         <html>
         <head>
@@ -144,8 +150,31 @@ class Glint_Email_Automation_Cron {
         }
         
         // Add email body
-        $content .= '<div class="email-body">' . wpautop(wp_kses_post($email_body)) . '</div>';
-        
+        $content .= '<div class="email-body">';
+        $content .= '<p>Hi ' . $first_name . '</p>';
+        $content .= wpautop(wp_kses_post($email_body));
+        $content .='</div>';
+
+        //load product list
+        $content .= '<div class="product-list-container">';
+        $content .= '<table>';
+        foreach ($items as $item_id => $item){
+            $product = $item->get_product();
+
+            if($product){
+                $product_name = esc_html($item->get_name());
+                $product_permalink = esc_url($product->get_permalink());
+                $thumbnail_url = wp_get_attachment_image_url($product->get_image_id(), 'thumbnail');
+
+                $content .= '<tr>';
+                $content .= '<td><img src="' . $thumbnail_url . '"></td>';
+                $content .= '<td><a href="' . $product_permalink . '">' . $product_name . '</td>';
+                $content .= '</tr>';
+            }
+        }
+        $content .= '</table>';
+        $content .='</div>';
+
         // Add email footer
         if (!empty($settings['email_footer'])) {
             $content .= '<div class="email-footer">' . wpautop(wp_kses_post($settings['email_footer'])) . '</div>';

@@ -47,6 +47,38 @@
     <p><label>Days Between Attempts:</label><input type="number" name="days_between" value="<?php echo esc_attr($settings['days_between']); ?>"></p>
     <p><label>Maximum Email Sent:</label><input type="number" name="maximum_sent" value="<?php echo esc_attr($settings['maximum_sent']); ?>" min="1"></p>
     <p><label>Email Title:</label><input type="text" name="email_title" value="<?php echo esc_attr($settings['email_title']); ?>" style="width: 100%;"></p>
-    <p><label>Email Head:</label><textarea name="email_head" rows="5" style="width: 100%;"><?php echo esc_textarea($settings['email_head']); ?></textarea></p>
-    <p><label>Email Footer:</label><textarea name="email_footer" rows="5" style="width: 100%;"><?php echo esc_textarea($settings['email_footer']); ?></textarea></p>
+
+    <p>
+        <label>Email Head:</label>
+        <?php 
+        $email_head = isset($settings['email_head']) ? $settings['email_head'] : '';
+        wp_editor(
+            wp_kses_post($email_head), // Content
+            'email_head', // Editor ID
+            array(
+                'textarea_name' => 'email_head', // Name of the textarea
+                'textarea_rows' => 5, // Number of rows
+                'media_buttons' => false, // Show media buttons?
+                'teeny' => true // Use minimal editor config
+            )
+        );
+        ?>
+    </p>
+    
+    <p>
+        <label>Email Footer:</label>
+        <?php 
+        $email_footer = isset($settings['email_footer']) ? $settings['email_footer'] : '';
+        wp_editor(
+            wp_kses_post($email_footer), // Content
+            'email_footer', // Editor ID
+            array(
+                'textarea_name' => 'email_footer', // Name of the textarea
+                'textarea_rows' => 5, // Number of rows
+                'media_buttons' => false, // Show media buttons?
+                'teeny' => true // Use minimal editor config
+            )
+        );
+        ?>
+    </p>
 </div>

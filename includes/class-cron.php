@@ -178,8 +178,8 @@ class Glint_Email_Automation_Cron {
             <meta charset="UTF-8">
             <title>' . esc_html($settings['email_title']) . '</title>
         </head>
-        <body>
-            <div class="email-container" style="text-align:center;">';
+        <body style="font-family: Verdana, sans-serif; color: #333; width: 80%; max-width: 700px; margin: 0 auto; padding: 20px;">
+            <div style="text-align:center;">';
         
         // Add email head
         if (!empty($settings['email_head'])) {
@@ -187,8 +187,8 @@ class Glint_Email_Automation_Cron {
         }
         
         // Add email body
-        $content .= '<div class="email-body" style="text-align:center;">';
-        $content .= '<p style="text-align:left;">Hi ' . $first_name . ',</p>';
+        $content .= '<div style="text-align:left;>';
+        $content .= '<p">Hi ' . $first_name . ',</p>';
         $content .= wpautop(wp_kses_post($email_body));
         $content .='</div>';
 
@@ -203,7 +203,7 @@ class Glint_Email_Automation_Cron {
             if(is_plugin_active('glint-sample-products/cht-sample-products.php')){
                 //get original product id
                 $original_product =  $this->get_original_product_id($product_id);
-                if($original_product != 0){
+                if($original_product !== 0){
                     $original_product = wc_get_product($product_id);
 
                     if($original_product){

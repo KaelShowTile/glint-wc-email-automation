@@ -63,6 +63,7 @@ class Glint_Email_Automation_Cron {
         ));
 
         if($original_id){
+            error_log("get original id: " . $original_id);
             return $original_id;
         }else{
             return 0;

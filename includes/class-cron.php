@@ -63,7 +63,6 @@ class Glint_Email_Automation_Cron {
         ));
 
         if($original_id){
-            error_log("get original id: " . $original_id);
             return $original_id;
         }else{
             return 0;
@@ -203,13 +202,14 @@ class Glint_Email_Automation_Cron {
             //intergrate with sample plugin
             if(is_plugin_active('glint-sample-products/cht-sample-products.php')){
                 //get original product id
-                $original_product =  $this->get_original_product_id($product_id);
-                if($original_product !== 0){
-                    $original_product = wc_get_product($product_id);
+                $original_product_id =  $this->get_original_product_id($product_id);
+                
+                if($original_product_id !== 0){
+                    $original_product = wc_get_product($original_product_id);
 
                     if($original_product){
                         $product_name = $original_product->get_name();
-                        $product_permalink = get_permalink($product_id);
+                        $product_permalink = get_permalink($original_product_id);
                         $thumbnail_url = wp_get_attachment_image_url($original_product->get_image_id(), 'thumbnail');
                         $content .= '<tr>';
                         $content .= '<td><img src="' . $thumbnail_url . '"></td>';

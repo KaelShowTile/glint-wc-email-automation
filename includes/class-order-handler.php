@@ -2,13 +2,29 @@
 class Glint_Email_Automation_Order_Handler {
 
     public function __construct() {
-        add_action('woocommerce_checkout_order_processed', array($this, 'process_order'), 10, 3);
+        // Hook for traditional checkout (shortcode)
+        add_action('woocommerce_checkout_order_processed', array($this, 'process_order_traditional'), 10, 3);
+
+        // Hook for block checkout
+        add_action('woocommerce_store_api_checkout_order_processed', array($this, 'process_order_block'), 10, 1);
     }
 
-    public function process_order($order_id, $posted_data, $order) {
+    public function process_order_traditional($order_id, $posted_data, $order) {
+        error_log("Traditional checkout order processing: Order #" . $order_id);
+        $this->process_order_automation($order_id, $order);
+    }
+
+    public function process_order_block($order) {
+        error_log("Block checkout order processing: Order #" . $order->get_id());
+        $this->process_order_automation($order->get_id(), $order);
+    }
+
+    public function process_order_automation($order_id, $order) {
+        error_log("order start processing");
+
         // Get all active automations
         $automations = $this->get_all_automations();
-        
+
         // Get order items
         $items = $order->get_items();
         $customer_email = $order->get_billing_email();
@@ -28,6 +44,7 @@ class Glint_Email_Automation_Order_Handler {
             $is_match = $this->check_order_against_automation($order, $items, $settings);
             
             if ($is_match) {
+                error_log("automation triggered!");
                 $this->schedule_email($automation->ID, $customer_name, $customer_email, $purchase_date, $settings, $order_id);
             }
         }

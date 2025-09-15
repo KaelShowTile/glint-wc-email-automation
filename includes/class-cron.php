@@ -224,7 +224,7 @@ class Glint_Email_Automation_Cron {
                     $thumbnail_url = wp_get_attachment_image_url($product->get_image_id(), 'thumbnail');
                     $content .= '<tr>';
                     $content .= '<td><img src="' . $thumbnail_url . '"></td>';
-                    $content .= '<td><a href="' . $product_permalink . '">' . $product_name . '</td>';
+                    $content .= '<td style="text-align: left"><a href="' . $product_permalink . '">' . $product_name . '</td>';
                     $content .= '</tr>';
                 }
             }

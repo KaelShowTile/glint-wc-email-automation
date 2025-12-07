@@ -213,7 +213,7 @@ class Glint_Email_Automation_Cron {
                         $thumbnail_url = wp_get_attachment_image_url($original_product->get_image_id(), 'thumbnail');
                         $content .= '<tr>';
                         $content .= '<td><img src="' . $thumbnail_url . '"></td>';
-                        $content .= '<td><a href="' . $product_permalink . '">' . $product_name . '</td>';
+                        $content .= '<td><a href="' . $product_permalink . '?utm_source=sample_followup_email&utm_medium=email&utm_campaign=sample_followup">' . $product_name . '</td>';
                         $content .= '</tr>';
                     }
                 }
@@ -224,7 +224,7 @@ class Glint_Email_Automation_Cron {
                     $thumbnail_url = wp_get_attachment_image_url($product->get_image_id(), 'thumbnail');
                     $content .= '<tr>';
                     $content .= '<td><img src="' . $thumbnail_url . '"></td>';
-                    $content .= '<td style="text-align: left"><a href="' . $product_permalink . '">' . $product_name . '</td>';
+                    $content .= '<td style="text-align: left"><a href="' . $product_permalink . '"?utm_source=email_automation&utm_medium=email&utm_campaign=automatic_email>' . $product_name . '</td>';
                     $content .= '</tr>';
                 }
             }
